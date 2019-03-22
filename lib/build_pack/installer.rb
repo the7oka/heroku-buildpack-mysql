@@ -55,10 +55,12 @@ module BuildPack
       end
 
       def fix_perms_and_mv_binaries
-        binaries = Dir.glob("#{@mysql_binaries}/*")
-        Logger.log(binaries)
-        FileUtils.chmod("u=wrx", binaries)
-        FileUtils.mv(binaries, @bin_path)
+        ['mysqlshow', 'mysqlimport', "mysqlpump", "mysqlslap", "myisam_ftdump", "mysqlrepair", "mysqloptimize", "innotop", "mysqldump", "mysqlanalyze", "mysqladmin", "mysqldumpslow", "mysqlreport", "mysql_config_editor"].each do |binary|
+          directory = Dir.glob("#{@mysql_binaries}/#{binary}")
+          FileUtils.chmod("u=wrx", directory)
+          FileUtils.mv(directory, @bin_path)
+          Logger.log("#{binary} is done")
+        end
       end
 
       def cleanup
