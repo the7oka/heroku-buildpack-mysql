@@ -55,8 +55,8 @@ module BuildPack
       end
 
       def fix_perms_and_mv_binaries
-        ['mysqlcheck', 'mysqldump', 'mysql', 'mysqladmin', 'myisamchk'].each do |binary|
-          directory = Dir.glob("#{@mysql_binaries}/#{binary}")
+        ('a'..'z').to_a.each do |char|
+          directory = Dir.glob("#{@mysql_binaries}/#{char}*")
           FileUtils.chmod("u=wrx", directory)
           FileUtils.mv(directory, @bin_path)
         end
